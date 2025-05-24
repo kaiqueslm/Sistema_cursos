@@ -16,5 +16,11 @@
         "idade": 18,
         "email": "vini123@gmail.com",
         "senha": "4c006c647316bd2eff7a6cb09757f0c2ca2bba09de4d562a773ef0c3f3693039"
+    },
+    {
+        "nome": "kaique",
+        "idade": 19,
+        "email": "kaique1234@gmail.com",
+        "senha": "fcc039ee9ca3a3852ffe24686b4dfbd38455003d9b6faaf9ae74cd66dd39e22a"
     }
 ]

@@ -1,11 +1,12 @@
-import json
-import os
+import json # Biblioteca para lidar com arquivos em formato JSON
+import os # Biblioteca para usar comandos do sistema operacional
 from hashlib import sha256
 os.system('cls')
 
-caminho_arquivo = 'cadastros.json'
-usuario_logado = None
+caminho_arquivo = 'cadastros.json' # Nome do arquivo onde os cadastros são salvos
+usuario_logado = None # Variável para armazenar o usuário logado
 
+# Função que pergunta ao usuário se quer voltar aos cursos ou encerrar o programa
 def funcao_voltar_curso():
     while True:
         resposta = input('Para voltar aos cursos(sim/não)\n').strip().lower()[0]
@@ -28,15 +29,17 @@ def funcao_voltar_sair():
         else:
             print('DIGITE APENAS (sim/não)')
 
+# Verifica se o arquivo de cadastros existe
 if os.path.exists(caminho_arquivo):
     with open(caminho_arquivo, 'r') as arquivo:
         try:
-            cadastros = json.load(arquivo)
+            cadastros = json.load(arquivo) # Carrega os dados do arquivo JSON
         except json.JSONDecodeError:
             cadastros = []
 else:
     cadastros = []
 
+# Loop principal do programa
 while True:
     print('Seja bem vindo, a nossa plataforma digital de cursos!')
 
@@ -47,14 +50,17 @@ while True:
 
     ver = input('Para entrar digite (1, 2, 3 ou 4)\n').strip().lower()
     
+    # Opção 1 - Introdução
     if ver == '1':
         print('A nossa plataforma é voltada para conteúdos de educação digital e inclusão tecnologica.')
         if funcao_voltar_sair() == 'voltar':
             continue
 
-    if ver == '2':
+    if ver == '2': # Opção 2 - Cadastro
         while True:
             print('Área do cadastro')
+
+            # Aceitação do termo LGPD
             print('''Termo de Consentimento de Uso de Dados
 Ao prosseguir com o cadastro, você autoriza o uso dos dados fornecidos para fins educacionais e estatísticos dentro da plataforma. Seus dados serão armazenados com segurança, não serão compartilhados com terceiros e serão utilizados conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018).''')
             while True:
@@ -96,7 +102,7 @@ Ao prosseguir com o cadastro, você autoriza o uso dos dados fornecidos para fin
                 break
 
         while True:
-            senha = input('Crie sua senha (mínimo 6 caracteres): \n')
+            senha = input('Crie sua senha (mínimo 6 caracteres e forte de preferência): \n')
             if len(senha) < 6:
                 print('Senha muito curta.')
                 continue
@@ -104,11 +110,13 @@ Ao prosseguir com o cadastro, você autoriza o uso dos dados fornecidos para fin
             if senha != confirmar_senha:
                 print('Senhas não conferem.')
                 continue
-           
+
+           # Criptografa a senha
             senha_armazenar = sha256(senha.encode()).hexdigest()
             print('Sua senha foi criptografada!')
             print('Cadastro concluído com sucesso!')
 
+            # Salva o novo cadastro
             novo_cadastro = {
                 'nome': nome,
                 'idade': idade,
@@ -123,13 +131,14 @@ Ao prosseguir com o cadastro, você autoriza o uso dos dados fornecidos para fin
 
         if funcao_voltar_sair() == 'voltar':
             continue
-
+    # Opção 4 - Login
     if ver == '4':
         print('Área de Login')
         email_login = input('Digite seu email: \n').strip()
         senha_login = input('Digite sua senha: \n').strip()
         senha_login_hash = sha256(senha_login.encode()).hexdigest()
-
+        
+        # Verifica se o e-mail e senha estão corretos
         for usuario in cadastros:
             if usuario['email'] == email_login and usuario['senha'] == senha_login_hash:
                 print(f'Login bem-sucedido! Bem-vindo, {usuario["nome"]}!')
